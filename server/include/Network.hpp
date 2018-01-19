@@ -17,6 +17,7 @@ private:
 public:
 
 	static Network &getInstance();
+	
 
 
 };
