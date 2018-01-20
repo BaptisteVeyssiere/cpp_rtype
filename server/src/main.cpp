@@ -3,6 +3,7 @@
 #include <boost/asio/impl/src.hpp>
 #include <boost/asio.hpp>
 #include "Network.hpp"
+#include "WinLibLoader.hpp"
 
 
 enum { max_length = 1024 };
@@ -22,6 +23,20 @@ void server(boost::asio::io_context& io_context, unsigned short port)
 
 int main(int argc, char **argv)
 {
+	WinLibLoader	libloader;
+	std::vector<std::string>	v;
+
+	try {
+		v = libloader.readDirectory("monster");
+		for (auto s : v)
+		{
+			std::cout << s << std::endl;
+		}
+	}
+	catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+	return (0);
 	try
 	{
 		Network &net = Network::getInstance();
