@@ -59,6 +59,7 @@ if (WIN32)
 endif (WIN32)
 
 add_subdirectory(Network)
+add_subdirectory(Protocol)
 add_subdirectory(server)
 add_subdirectory(client)
 add_subdirectory(tests)
