@@ -48,7 +48,7 @@ void	AsioSocket::sendRequest(std::vector<char> const &data, unsigned int const &
 {
 	if (id == 0)
 	{
-		socket.send_to(boost::asio::buffer(data.data(), data.size()), endpoint);
+		socket.send_to(boost::asio::buffer(data), endpoint);
 	}
 	else
 	{
@@ -58,19 +58,20 @@ void	AsioSocket::sendRequest(std::vector<char> const &data, unsigned int const &
 			if (client._id == id)
 				endp = client._endpoint;
 		}
-		socket.send_to(boost::asio::buffer(data.data(), data.size()), endp);
+		socket.send_to(boost::asio::buffer(data), endp);
 	}
 }
 
 void	AsioSocket::sendRequest(std::vector<char> const &data)
 {
-	socket.send_to(boost::asio::buffer(data.data(), data.size()), endpoint);
+	socket.send_to(boost::asio::buffer(data), endpoint);
 }
 
-void	AsioSocket::receiveRequest(std::vector<char> &data, unsigned int &id)
+void	AsioSocket::receiveRequest(std::vector<char> &data, unsigned int &size, unsigned int &id)
 {
 	boost::asio::ip::udp::endpoint	sender;
-	socket.receive_from(boost::asio::buffer(data.data(), data.size()), sender);
+	std::size_t len = socket.receive_from(boost::asio::buffer(data), sender);
+	size = static_cast<unsigned int>(len);
 	if (sender != endpoint)
 	{
 		bool isNew = true;
@@ -91,10 +92,11 @@ void	AsioSocket::receiveRequest(std::vector<char> &data, unsigned int &id)
 	}
 }
 
-void	AsioSocket::receiveRequest(std::vector<char> &data)
+void	AsioSocket::receiveRequest(std::vector<char> &data, unsigned int &size)
 {
 	boost::asio::ip::udp::endpoint	sender;
-	socket.receive_from(boost::asio::buffer(data.data(), data.size()), sender);
+	std::size_t len = socket.receive_from(boost::asio::buffer(data), sender);
+	size = static_cast<unsigned int>(len);
 }
 
 void	AsioSocket::registerAddress(std::string const &addr)

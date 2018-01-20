@@ -88,18 +88,20 @@ public:
 	*	@brief client side function to receive a request
 	*
 	*	@param data is a char vector which will contain the received request
+	*	@param size is an unsigned int which will contain the received size
 	*	@return void
 	*/
-	void	receiveRequest(std::vector<char> &data);
+	void	receiveRequest(std::vector<char> &data, unsigned int &size);
 
 	/**
 	*	@brief server side function to send a request
 	*
 	*	@param data is a char vector containing the request to send
+	*	@param size is an unsigned int which will contain the received size
 	*	@param id is an unsigned int which will contain the id of the client who sent data
 	*	@return void
 	*/
-	void	receiveRequest(std::vector<char> &data, unsigned int &id);
+	void	receiveRequest(std::vector<char> &data, unsigned int &size, unsigned int &id);
 
 	/**
 	*	@brief register distant server address
