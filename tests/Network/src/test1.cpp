@@ -31,9 +31,10 @@ int main(int argc, char **argv)
 		std::cout << "Client send data: " << std::string(client_data.begin(), client_data.end()).c_str() << std::endl;
 		client.sendRequest(client_data);
 		unsigned int clientId = 0;
+		unsigned int size = 0;
 		std::cout << "server receive data" << std::endl;
-		server.receiveRequest(receive_data, clientId);
-		std::cout << "received: " << std::string(receive_data.data()).c_str() << std::endl;
+		server.receiveRequest(receive_data, size, clientId);
+		std::cout << "received[" << size << "]: " << std::string(receive_data.data()).c_str() << std::endl;
 		std::cout << "server send data: " << std::string(server_data.begin(), server_data.end()).c_str() << std::endl;
 		server.sendRequest(server_data, clientId);
 		for (char val : receive_data)
@@ -41,8 +42,8 @@ int main(int argc, char **argv)
 			val = 0;
 		}
 		std::cout << "Client receive data" << std::endl;
-		client.receiveRequest(receive_data);
-		std::cout << "received: " << std::string(receive_data.data()).c_str() << std::endl;
+		client.receiveRequest(receive_data, size);
+		std::cout << "received[" << size << "]: " << std::string(receive_data.data()).c_str() << std::endl;
 	}
 	catch (std::exception &e)
 	{
