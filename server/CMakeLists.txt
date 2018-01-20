@@ -31,5 +31,7 @@ add_executable(r-type_server "src/main.cpp"
 							)
 
 if (UNIX)
-	target_link_libraries(r-type_server boost_system pthread)
+	target_link_libraries(r-type_server)
 endif(UNIX)
+
+target_link_libraries(r-type_server libnet)
