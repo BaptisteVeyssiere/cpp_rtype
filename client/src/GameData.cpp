@@ -1,15 +1,15 @@
-#include "Game.hpp"
+#include "GameData.hpp"
 #include <iostream>
 
-Game::Game()
+GameData::GameData()
 {
 }
 
-Game::~Game()
+GameData::~GameData()
 {
 }
 
-std::vector<char> Game::addVector(std::vector<char> a, std::vector<char> b)
+std::vector<char> GameData::addVector(std::vector<char> a, std::vector<char> b)
 {
 	std::vector<char> ret;
 
@@ -19,14 +19,14 @@ std::vector<char> Game::addVector(std::vector<char> a, std::vector<char> b)
 	return (ret);
 }
 
-void Game::setHeader()
+void GameData::setHeader()
 {
 	infos.entityCount = entities.size();
 	infos.enemyCount = enemies.size();
 	infos.playersCount = players.size();
 }
 
-std::vector<char> Game::getVector()
+std::vector<char> GameData::getVector()
 {
 	std::vector<char> ret;
 
@@ -41,7 +41,7 @@ std::vector<char> Game::getVector()
 	return (ret);
 }
 
-void	Game::getInfosFromServer(std::vector<char> buff)
+void	GameData::getInfosFromServer(std::vector<char> buff)
 {
 	memcpy(&infos, buff.data(), sizeof(Header));
 	buff.erase(buff.begin(), buff.begin() + sizeof(Header));
@@ -68,7 +68,7 @@ void	Game::getInfosFromServer(std::vector<char> buff)
 	}
 }
 
-void Game::display()
+void GameData::display()
 {
 	this->setHeader();
 	std::cout << "--------Game---------" << std::endl;
@@ -104,19 +104,19 @@ void Game::display()
 	std::cout << "------------------------" << std::endl;
 }
 
-Header& Game::getInfos()
+Header& GameData::getInfos()
 {
 	return (this->infos);
 }
-std::vector<Entity>& Game::getEntities()
+std::vector<Entity>& GameData::getEntities()
 {
 	return (this->entities);
 }
-std::vector<Enemy>& Game::getEnemies()
+std::vector<Enemy>& GameData::getEnemies()
 {
 	return (this->enemies);
 }
-std::vector<Player>& Game::getPlayers()
+std::vector<Player>& GameData::getPlayers()
 {
 	return (this->players);
 }

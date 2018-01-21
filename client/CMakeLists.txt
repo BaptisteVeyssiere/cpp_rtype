@@ -7,11 +7,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 include_directories("include")
 
 set(SOURCES
-"include/Game.hpp")
+"include/GameData.hpp")
 
 set(HEADERS
 "src/main.cpp"
-"src/Game.cpp")
+"src/GameData.cpp")
 
 if (UNIX)
 	add_executable(r-type ${SOURCES} ${HEADERS})

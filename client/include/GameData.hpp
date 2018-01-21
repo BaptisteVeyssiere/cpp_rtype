@@ -2,7 +2,7 @@
 
 #include "Protocol.hpp"
 
-class Game {
+class GameData {
 private:
 	Header infos;
 	std::vector<Entity> entities;
@@ -11,8 +11,8 @@ private:
 public:
 	void getInfosFromServer(std::vector<char> buff);
 	std::vector<char> getVector();
-	Game();
-	~Game();
+	GameData();
+	~GameData();
 	Header& getInfos();
 	std::vector<Entity>& getEntities();
 	std::vector<Enemy>& getEnemies();

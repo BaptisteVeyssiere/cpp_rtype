@@ -1,10 +1,10 @@
-#include "Game.hpp"
+#include "GameData.hpp"
 #include <iostream>
 #include <vector>
 
 int main(int argc, char **argv)
 {
-	Game infos;
+	GameData infos;
 
 	Entity *entity = new Entity();
 	Entity entity2;
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 	for (int i = 0; i < buff.size(); i++)
 		std::cout << buff[i];
 	std::cout << std::endl;
-	Game tmp;
+	GameData tmp;
 	std::cout << "--------------" << std::endl;
 	tmp.getInfosFromServer(buff);
 	tmp.display();
