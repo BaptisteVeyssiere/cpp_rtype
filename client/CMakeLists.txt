@@ -13,7 +13,8 @@ set(SOURCES
 "src/Layer.cpp"
 "src/Textures.cpp"
 "src/Gui.cpp"
-"src/GameData.cpp")
+"src/GameData.cpp"
+"src/Test.cpp")
 
 set(HEADERS
 "include/GameData.hpp"
@@ -21,7 +22,10 @@ set(HEADERS
 "include/Game.hpp"
 "include/Layer.hpp"
 "include/Textures.hpp"
-"include/Gui.hpp")
+"include/Gui.hpp"
+"include/ClientEnemy.hpp"
+"include/ClientEntity.hpp"
+"include/ClientPlayer.hpp")
 
 if (UNIX)
 endif(UNIX)
@@ -32,4 +36,4 @@ if (WIN32)
 endif(WIN32)
 
 add_executable(r-type ${SOURCES} ${HEADERS})
-target_link_libraries(r-type sfml-graphics-d sfml-audio-d sfml-window-d sfml-system-d libprotocol)
+target_link_libraries(r-type sfml-graphics-d sfml-audio-d sfml-window-d sfml-system-d libprotocol libnet)
