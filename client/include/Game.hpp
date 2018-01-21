@@ -5,6 +5,7 @@
 #include "Textures.hpp"
 #include "Gui.hpp"
 #include "Layer.hpp"
+#include <SFML/Audio.hpp>
 
 namespace RType
 {
@@ -14,6 +15,7 @@ namespace RType
 		TekEngine::Gui		gui;
 		TekEngine::Layer	menu;
 		TekEngine::Layer	subMenu;
+		sf::Music			music;
 
 	public:
 		Game();

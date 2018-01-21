@@ -66,8 +66,8 @@ void	TekEngine::Layer::addBackground(std::string textureName)
 	textures->addTexture(textureName);
 	if (!textures->findTextureById(textureName))
 		throw std::exception();
-	newSize.y = static_cast<float>(720) / textures->getTexture().getSize().y;
-	newSize.x = static_cast<float>(1280) / textures->getTexture().getSize().x;
+	newSize.y = static_cast<float>(900) / textures->getTexture().getSize().y;
+	newSize.x = static_cast<float>(1600) / textures->getTexture().getSize().x;
 	background.setTexture(textures->getTexture());
 	background.setScale(newSize);
 	back = true;
