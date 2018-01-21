@@ -20,6 +20,7 @@ namespace RType
 		TekEngine::Gui		gui;
 		TekEngine::Layer	menu;
 		TekEngine::Layer	subMenu;
+		TekEngine::Sprite	sprite;
 		sf::Music			music;
 		GameData			data;
 
@@ -32,6 +33,7 @@ namespace RType
 		Game	operator=(Game &other);
 
 	private:
+		void	displaySprites();
 		void	handleEvents();
 
 	public:

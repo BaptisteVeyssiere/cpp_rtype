@@ -25,8 +25,7 @@ set(HEADERS
 "include/Gui.hpp"
 "include/ClientEnemy.hpp"
 "include/ClientEntity.hpp"
-"include/ClientPlayer.hpp")
-"include/Gui.hpp"
+"include/ClientPlayer.hpp"
 "include/Sprite.hpp")
 
 if (UNIX)
