@@ -62,6 +62,11 @@ void	RType::Game::handleEvents() {
 			if (event.key.code == sf::Keyboard::Escape) {
 				gui.setDisplay(true);
 			}
+			if (event.key.code == sf::Keyboard::Space) {
+				int i = -1;
+				while (in.inputs[++i] != Key::NONE);
+				in.inputs[i] = Key::FIRE;
+			}
 		}
 	}
 }
@@ -98,7 +103,6 @@ void RType::Game::startGameLoop() {
 
 	while (win.isOpen()) {
 		this->sendData();
-		data.display();
 		win.clear();
 		this->handleEvents();
 		this->displaySprites();
@@ -118,6 +122,8 @@ void RType::Game::socketInitialise(std::string ip, int port)
 void RType::Game::sendData()
 {
 	socket.sendRequest(in.getVector());
+	for (int i = 0; i < 8; ++i)
+		in.inputs[i] = Key::NONE;
 }
 
 void RType::Game::receiveData()
