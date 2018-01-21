@@ -53,9 +53,10 @@ void	AsioSocket::sendRequest(std::vector<char> &data, unsigned int const &id)
 	try
 	{
 		std::size_t rsize = 0;
+		boost::system::error_code e;
 		if (id == 0)
 		{
-			rsize = socket.send_to(boost::asio::buffer(data), endpoint);
+			rsize = socket.send_to(boost::asio::buffer(data), endpoint, 0, e);
 		}
 		else
 		{
@@ -65,14 +66,10 @@ void	AsioSocket::sendRequest(std::vector<char> &data, unsigned int const &id)
 				if (client._id == id)
 					endp = client._endpoint;
 			}
-			rsize = socket.send_to(boost::asio::buffer(data), endp);
+			rsize = socket.send_to(boost::asio::buffer(data), endp, 0, e);
 		}
 		if (rsize > 0)
 			data.erase(data.begin(), data.begin() + rsize);
-	}
-	catch (boost::system::system_error const &e)
-	{
-		std::cerr << e.what() << std::endl;
 	}
 	catch (std::exception const &e)
 	{
@@ -84,13 +81,10 @@ void	AsioSocket::sendRequest(std::vector<char> &data)
 {
 	try
 	{
-		std::size_t rsize = socket.send_to(boost::asio::buffer(data), endpoint);
+		boost::system::error_code e;
+		std::size_t rsize = socket.send_to(boost::asio::buffer(data), endpoint, 0, e);
 		if (rsize > 0)
 			data.erase(data.begin(), data.begin() + rsize);
-	}
-	catch (boost::system::system_error const &e)
-	{
-		std::cerr << e.what() << std::endl;
 	}
 	catch (std::exception const &e)
 	{
@@ -105,7 +99,8 @@ void	AsioSocket::receiveRequest(std::vector<char> &data, unsigned int &size, uns
 		boost::asio::ip::udp::endpoint	sender;
 		size = 0;
 		id = 0;
-		std::size_t len = socket.receive_from(boost::asio::buffer(data), sender);
+		boost::system::error_code e;
+		std::size_t len = socket.receive_from(boost::asio::buffer(data), sender, 0, e);
 		size = static_cast<unsigned int>(len);
 		if (sender != endpoint)
 		{
@@ -126,10 +121,6 @@ void	AsioSocket::receiveRequest(std::vector<char> &data, unsigned int &size, uns
 			}
 		}
 	}
-	catch (boost::system::system_error const &e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
 	catch (std::exception const &e)
 	{
 		std::cerr << e.what() << std::endl;
@@ -142,12 +133,9 @@ void	AsioSocket::receiveRequest(std::vector<char> &data, unsigned int &size)
 	{
 		boost::asio::ip::udp::endpoint	sender;
 		size = 0;
-		std::size_t len = socket.receive_from(boost::asio::buffer(data), sender);
+		boost::system::error_code e;
+		std::size_t len = socket.receive_from(boost::asio::buffer(data), sender, 0,e);
 		size = static_cast<unsigned int>(len);
-	}
-	catch (boost::system::system_error const &e)
-	{
-		std::cerr << e.what() << std::endl;
 	}
 	catch (std::exception const &e)
 	{
