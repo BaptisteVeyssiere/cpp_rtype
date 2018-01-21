@@ -1,3 +1,4 @@
+#include <iostream>
 #include <algorithm>
 #include <boost/asio/impl/src.hpp>
 #include "AsioSocket.hpp"
@@ -49,62 +50,97 @@ void	AsioSocket::startReceivingConnections()
 
 void	AsioSocket::sendRequest(std::vector<char> &data, unsigned int const &id)
 {
-	std::size_t rsize = 0;
-	if (id == 0)
+	try
 	{
-		rsize = socket.send_to(boost::asio::buffer(data), endpoint);
-	}
-	else
-	{
-		boost::asio::ip::udp::endpoint	endp;
-		for (AsioClient client : clientList)
+		std::size_t rsize = 0;
+		boost::system::error_code e;
+		if (id == 0)
 		{
-			if (client._id == id)
-				endp = client._endpoint;
+			rsize = socket.send_to(boost::asio::buffer(data), endpoint, 0, e);
 		}
-		rsize = socket.send_to(boost::asio::buffer(data), endp);
+		else
+		{
+			boost::asio::ip::udp::endpoint	endp;
+			for (AsioClient client : clientList)
+			{
+				if (client._id == id)
+					endp = client._endpoint;
+			}
+			rsize = socket.send_to(boost::asio::buffer(data), endp, 0, e);
+		}
+		if (rsize > 0)
+			data.erase(data.begin(), data.begin() + rsize);
 	}
-	if (rsize > 0)
-		data.erase(data.begin(), data.begin() + rsize);
+	catch (std::exception const &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }
 
 void	AsioSocket::sendRequest(std::vector<char> &data)
 {
-	std::size_t rsize = socket.send_to(boost::asio::buffer(data), endpoint);
-	if (rsize > 0)
-		data.erase(data.begin(), data.begin() + rsize);
+	try
+	{
+		boost::system::error_code e;
+		std::size_t rsize = socket.send_to(boost::asio::buffer(data), endpoint, 0, e);
+		if (rsize > 0)
+			data.erase(data.begin(), data.begin() + rsize);
+	}
+	catch (std::exception const &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }
 
 void	AsioSocket::receiveRequest(std::vector<char> &data, unsigned int &size, unsigned int &id)
 {
-	boost::asio::ip::udp::endpoint	sender;
-	std::size_t len = socket.receive_from(boost::asio::buffer(data), sender);
-	size = static_cast<unsigned int>(len);
-	if (sender != endpoint)
+	try
 	{
-		bool isNew = true;
-		for (AsioClient client : clientList)
+		boost::asio::ip::udp::endpoint	sender;
+		size = 0;
+		id = 0;
+		boost::system::error_code e;
+		std::size_t len = socket.receive_from(boost::asio::buffer(data), sender, 0, e);
+		size = static_cast<unsigned int>(len);
+		if (sender != endpoint)
 		{
-			if (client._endpoint == sender)
+			bool isNew = true;
+			for (AsioClient client : clientList)
 			{
-				id = client._id;
-				isNew = false;
-				break;
+				if (client._endpoint == sender)
+				{
+					id = client._id;
+					isNew = false;
+					break;
+				}
+			}
+			if (isNew)
+			{
+				clientList.push_back(AsioClient(sender, ++nextId));
+				id = nextId;
 			}
 		}
-		if (isNew)
-		{
-			clientList.push_back(AsioClient(sender, ++nextId));
-			id = nextId;
-		}
+	}
+	catch (std::exception const &e)
+	{
+		std::cerr << e.what() << std::endl;
 	}
 }
 
 void	AsioSocket::receiveRequest(std::vector<char> &data, unsigned int &size)
 {
-	boost::asio::ip::udp::endpoint	sender;
-	std::size_t len = socket.receive_from(boost::asio::buffer(data), sender);
-	size = static_cast<unsigned int>(len);
+	try
+	{
+		boost::asio::ip::udp::endpoint	sender;
+		size = 0;
+		boost::system::error_code e;
+		std::size_t len = socket.receive_from(boost::asio::buffer(data), sender, 0,e);
+		size = static_cast<unsigned int>(len);
+	}
+	catch (std::exception const &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }
 
 void	AsioSocket::registerAddress(std::string const &addr)

@@ -87,6 +87,7 @@ void	RType::Game::displaySprites() {
 		delete sprite;
 	}
 
+	this->socketInitialise("127.0.0.1", 57342);
 	for (auto object : entities) {
 		sprite = new TekEngine::Sprite;
 		sprite->setSprite(object.sprite, 2, 81, 16);
@@ -99,11 +100,14 @@ void	RType::Game::displaySprites() {
 
 void RType::Game::startGameLoop() {
 	while (win.isOpen()) {
+		this->sendData();
+		data.display();
 		win.clear();
 		this->handleEvents();
 		this->displaySprites();
 		gui.refresh();
 		win.refresh();
+		this->receiveData();
 	}
 }
 
@@ -121,11 +125,11 @@ void RType::Game::sendData()
 
 void RType::Game::receiveData()
 {
-	unsigned int size;
-	std::vector<char> buffer;
-	socket.receiveRequest(buffer, size);
-	data.emptyLists();
-	data.getInfosFromServer(buffer);
+		unsigned int size;
+		std::vector<char> buffer;
+		socket.receiveRequest(buffer, size);
+		data.emptyLists();
+		data.getInfosFromServer(buffer);
 }
 
 void RType::Game::terminate() {
