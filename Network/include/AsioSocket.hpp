@@ -73,7 +73,7 @@ public:
 	*	@param data is a char vector containing the request to send
 	*	@return void
 	*/
-	void	sendRequest(std::vector<char> const &data);
+	void	sendRequest(std::vector<char> &data);
 
 	/**
 	*	@brief server side function to send a request
@@ -82,7 +82,7 @@ public:
 	*	@param id is an unsigned int containing the id of the distant client
 	*	@return void
 	*/
-	void	sendRequest(std::vector<char> const &data, unsigned int const &id);
+	void	sendRequest(std::vector<char> &data, unsigned int const &id);
 
 	/**
 	*	@brief client side function to receive a request

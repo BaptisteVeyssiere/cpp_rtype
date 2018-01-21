@@ -45,6 +45,7 @@ private:
 
 	void	receiveRequest();
 	void	getRequests(std::vector<ClientRequest> &requests, NetClient &client);
+	void	prepareClientsRequests(std::vector<ServerRequest> const &requests);
 
 public:
 
