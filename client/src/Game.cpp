@@ -58,7 +58,7 @@ void RType::Game::startGameLoop() {
 	sf::Color		color;
 	int				i = 0;
 
-	this->socketInitialise("127.0.0.1", 4567);
+	this->socketInitialise("127.0.0.1", 57342);
 	while (win.isOpen()) {
 		this->sendData();
 		data.display();
@@ -92,11 +92,11 @@ void RType::Game::sendData()
 
 void RType::Game::receiveData()
 {
-	unsigned int size;
-	std::vector<char> buffer;
-	socket.receiveRequest(buffer, size);
-	data.emptyLists();
-	data.getInfosFromServer(buffer);
+		unsigned int size;
+		std::vector<char> buffer;
+		socket.receiveRequest(buffer, size);
+		data.emptyLists();
+		data.getInfosFromServer(buffer);
 }
 
 void RType::Game::terminate() {
