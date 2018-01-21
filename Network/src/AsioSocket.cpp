@@ -7,7 +7,6 @@ AsioSocket::AsioSocket() : io_context(), socket(io_context), endpoint(), nextId(
 	_id = 0;
 	_address = "";
 	_port = 0;
-	socket.non_blocking(true);
 }
 
 AsioSocket::AsioSocket(std::string const &addr, int const &port) : io_context(), socket(io_context), endpoint(), nextId(0)
@@ -15,7 +14,6 @@ AsioSocket::AsioSocket(std::string const &addr, int const &port) : io_context(),
 	_id = 0;
 	_address = addr;
 	_port = port;
-	socket.non_blocking(true);
 }
 
 AsioSocket::~AsioSocket()
@@ -29,6 +27,7 @@ void	AsioSocket::prepareToConnect()
 	socket.open(boost::asio::ip::udp::v4());
 	endpoint.address(boost::asio::ip::address::from_string(_address));
 	endpoint.port(_port);
+	socket.non_blocking(true);
 }
 
 void	AsioSocket::getNewConnections(std::vector<unsigned int> &clients)
@@ -45,6 +44,7 @@ void	AsioSocket::startReceivingConnections()
 	socket.open(boost::asio::ip::udp::v4());
 	socket.set_option(boost::asio::socket_base::reuse_address(true));
 	socket.bind(boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), _port));
+	socket.non_blocking(true);
 }
 
 void	AsioSocket::sendRequest(std::vector<char> &data, unsigned int const &id)
