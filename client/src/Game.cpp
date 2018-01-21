@@ -24,7 +24,7 @@ void RType::Game::init() {
 	menu.addButton("bouton.png", std::pair<int, int>(700, 500), std::pair<int, int>(200, 60), "jouer");
 	menu.addButton("bouton.png", std::pair<int, int>(700, 700), std::pair<int, int>(200, 60), "test");
 	menu.addButton("bouton.png", std::pair<int, int>(700, 600), std::pair<int, int>(200, 60), "test2");
-	menu.addText("RTYPE", "R-Type", std::pair<int, int>(800, 100), 70);
+	menu.addText("RTYPE", "R-Type", std::pair<int, int>(700, 100), 70);
 	menu.setButtonText("test", "Quitter", 35);
 	menu.setButtonText("test2", "Options", 35);
 	menu.setButtonText("jouer", "Jouer", 50);
@@ -87,7 +87,6 @@ void	RType::Game::displaySprites() {
 		delete sprite;
 	}
 
-	this->socketInitialise("127.0.0.1", 57342);
 	for (auto object : entities) {
 		sprite = new TekEngine::Sprite;
 		sprite->setSprite(object.sprite, 2, 81, 16);
@@ -99,6 +98,8 @@ void	RType::Game::displaySprites() {
 }
 
 void RType::Game::startGameLoop() {
+	this->socketInitialise("127.0.0.1", 57342);
+
 	while (win.isOpen()) {
 		this->sendData();
 		data.display();
