@@ -4,6 +4,7 @@
 # include "IEntity.hpp"
 # include "Timer.hpp"
 # include "MonsterFactory.hpp"
+#include "Protocol.hpp"
 
 class GameCore
 {
@@ -16,16 +17,17 @@ private:
 	Timer								FrameAlarm;
 	std::list<std::unique_ptr<IEntity>>	entityList;
 	MonsterFactory						monsterFactory;
+	std::unordered_map<Key, bool>		inputs;
 public:
-
+	void	play() noexcept;
+	void	getNetworkData(std::shared_ptr<Header> &head, std::vector<std::shared_ptr<Entity>> &entities,
+		std::vector<std::shared_ptr<Enemy>>	&enemies, std::vector<std::shared_ptr<Player>> &players) const noexcept;
+	void	feedInput(const int id, const Inputs &inputs) noexcept;
 
 private:
 	bool	checkCollision(const Hitbox &first, const Hitbox &second) const noexcept;
 	void	addEntity(std::unique_ptr<IEntity> &entity) noexcept;
-	void	play() noexcept;
 	void	checkInteractions() noexcept;
-	//void	getNetworkData(Header &header, std::vector<Players> &player, std::vector<Enemy> &enemy, std::vector<Entity> &entity) const noexcept;
-	//void	feedInput(const Key &keys[10]) noexcept;
 };
 
 #endif // !GAMECORE_HPP_
