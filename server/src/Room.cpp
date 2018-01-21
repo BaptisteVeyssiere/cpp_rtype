@@ -45,7 +45,7 @@ void	Room::beforeTheGame()
 void	Room::getGameCoreRequest()
 {
 	ServerRequest	request;
-	//TODO getrequest
+	core->getNetworkData(request.head, request.entities, request.enemies, request.players);
 	for (int i = 0; i < players.size(); ++i)
 	{
 		ServerRequest tmp(request);
@@ -64,7 +64,14 @@ void	Room::roomProcess()
 		}
 		else
 		{
+			if (!receivedQueue.empty())
+			{
+				core->feedInput(receivedQueue.back().id, *receivedQueue.back().input.get());
+				receivedQueue.pop();
+			}
+			core->play();
 			getGameCoreRequest();
+
 		}
 		std::this_thread::yield();
 	}
