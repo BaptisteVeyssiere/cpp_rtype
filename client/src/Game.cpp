@@ -58,8 +58,10 @@ void RType::Game::startGameLoop() {
 	sf::Color		color;
 	int				i = 0;
 
-
+	this->socketInitialise("127.0.0.1", 4567);
 	while (win.isOpen()) {
+		this->sendData();
+		data.display();
 		win.clear();
 		this->handleEvents();
 		if (++i % 3 == 0) {
@@ -72,6 +74,7 @@ void RType::Game::startGameLoop() {
 		}
 		gui.refresh();
 		win.refresh();
+		this->receiveData();
 	}
 }
 

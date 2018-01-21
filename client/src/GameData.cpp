@@ -43,28 +43,31 @@ std::vector<char> GameData::getVector()
 
 void	GameData::getInfosFromServer(std::vector<char> buff)
 {
-	memcpy(&infos, buff.data(), sizeof(Header));
-	buff.erase(buff.begin(), buff.begin() + sizeof(Header));
-	for (int i = 0; i < infos.entityCount; i++)
+	if (buff.size() >= sizeof(Header))
 	{
-		ClientEntity entityTmp;
-		memcpy(&entityTmp, buff.data(), sizeof(Entity));
-		buff.erase(buff.begin(), buff.begin() + sizeof(Entity));
-		entities.push_back(entityTmp);
-	}
-	for (int i = 0; i < infos.enemyCount; i++)
-	{
-		ClientEnemy enemyTmp;
-		memcpy(&enemyTmp, buff.data(), sizeof(Enemy));
-		buff.erase(buff.begin(), buff.begin() + sizeof(Enemy));
-		enemies.push_back(enemyTmp);
-	}
-	for (int i = 0; i < infos.playersCount; i++)
-	{
-		ClientPlayer playerTmp;
-		memcpy(&playerTmp, buff.data(), sizeof(Player));
-		buff.erase(buff.begin(), buff.begin() + sizeof(Player));
-		players.push_back(playerTmp);
+		memcpy(&infos, buff.data(), sizeof(Header));
+		buff.erase(buff.begin(), buff.begin() + sizeof(Header));
+		for (int i = 0; i < infos.entityCount; i++)
+		{
+			ClientEntity entityTmp;
+			memcpy(&entityTmp, buff.data(), sizeof(Entity));
+			buff.erase(buff.begin(), buff.begin() + sizeof(Entity));
+			entities.push_back(entityTmp);
+		}
+		for (int i = 0; i < infos.enemyCount; i++)
+		{
+			ClientEnemy enemyTmp;
+			memcpy(&enemyTmp, buff.data(), sizeof(Enemy));
+			buff.erase(buff.begin(), buff.begin() + sizeof(Enemy));
+			enemies.push_back(enemyTmp);
+		}
+		for (int i = 0; i < infos.playersCount; i++)
+		{
+			ClientPlayer playerTmp;
+			memcpy(&playerTmp, buff.data(), sizeof(Player));
+			buff.erase(buff.begin(), buff.begin() + sizeof(Player));
+			players.push_back(playerTmp);
+		}
 	}
 }
 
