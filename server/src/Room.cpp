@@ -24,7 +24,13 @@ void	Room::beforeTheGame()
 			{
 				if (players[i] == request.id)
 				{
-					states[i].flip();
+					if (request.input == nullptr)
+						break;
+					for (int x = 0; x < 8; ++x)
+					{
+						if (request.input->inputs[x] == Key::FIRE)
+							states[i].flip();
+					}
 					break;
 				}
 			}

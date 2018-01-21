@@ -21,15 +21,21 @@ void RType::Game::init() {
 	music.play();
 	music.setVolume(10);
 	music.setLoop(true);
+	menu.addButton("bouton.png", std::pair<int, int>(700, 500), std::pair<int, int>(200, 60), "jouer");
 	menu.addButton("bouton.png", std::pair<int, int>(700, 700), std::pair<int, int>(200, 60), "test");
 	menu.addButton("bouton.png", std::pair<int, int>(700, 600), std::pair<int, int>(200, 60), "test2");
 	menu.addText("RTYPE", "R-Type", std::pair<int, int>(800, 100), 70);
 	menu.setButtonText("test", "Quitter", 35);
 	menu.setButtonText("test2", "Options", 35);
+	menu.setButtonText("jouer", "Jouer", 50);
 	menu.addBackground("bg.jpg");
 	subMenu.addButton("superbouton.png", std::pair<int, int>(700, 700), std::pair<int, int>(200, 60), "subtest");
 	subMenu.addButton("superbouton.png", std::pair<int, int>(700, 600), std::pair<int, int>(200, 60), "subtest2");
 	subMenu.setButtonText("subtest", "Retour", 35);
+	sprite.setSprite("bullet.png", 2, 81, 16);
+	sprite.setScale(10);
+	sprite.setAnimSpeed(0.05);
+	sprite.setPosition(std::pair<int, int>(200, 200));
 	gui.addLayer(&menu);
 	gui.setDisplay(true);
 }
@@ -48,11 +54,38 @@ void	RType::Game::handleEvents() {
 					gui.addLayer(&subMenu);
 				else if (gui.mouseClick() == "subtest")
 					gui.removeLayer();
+				else if (gui.mouseClick() == "jouer")
+					gui.setDisplay(false);
+			}
+		}
+		if (event.type == sf::Event::KeyPressed) {
+			if (event.key.code == sf::Keyboard::Escape) {
+				gui.setDisplay(true);
 			}
 		}
 	}
 }
 
+void	RType::Game::displaySprites() {
+	TekEngine::Sprite	*sprite;
+
+	auto players = data.getPlayers();
+	auto entities = data.getEntities();
+
+	sprite = new TekEngine::Sprite;
+
+	sprite->setSprite("fond.png", 1, 1600, 900);
+	win.getWindow()->draw(sprite->getSprite());
+	delete sprite;
+	for (auto object : players) {
+		sprite = new TekEngine::Sprite;
+		sprite->setSprite(object.sprite, 1, 124, 90);
+		sprite->setScale(static_cast<float>(object.scale) / 100.0);
+		sprite->setPosition(std::pair<int, int>(static_cast<float>(object.pos.y) / 10000.0 * 900.0, static_cast<float>(object.pos.x) / 10000.0 * 1600.0));
+		sprite->setMask(sf::Color(255, 255, 0));
+		win.getWindow()->draw(sprite->getSprite());
+		delete sprite;
+	}
 void RType::Game::startGameLoop() {
 	std::clock_t	c = clock();
 	Connect			co;
@@ -63,19 +96,23 @@ void RType::Game::startGameLoop() {
 	co.room = 1;
 	this->socketInitialise("127.0.0.1", 57342);
 	this->socket.sendRequest(co.getVector());
+	for (auto object : entities) {
+		sprite = new TekEngine::Sprite;
+		sprite->setSprite(object.sprite, 2, 81, 16);
+		sprite->setScale(static_cast<float>(object.scale) / 100.0);
+		sprite->setPosition(std::pair<int, int>(static_cast<float>(object.pos.y) / 10000.0 * 900.0, static_cast<float>(object.pos.x) / 10000.0 * 1600.0));
+		win.getWindow()->draw(sprite->getSprite());
+		delete sprite;
+	}
+}
+
+void RType::Game::startGameLoop() {
 	while (win.isOpen()) {
 		this->sendData();
 		data.display();
 		win.clear();
 		this->handleEvents();
-		if (++i % 3 == 0) {
-			c = clock() - c;
-			menu.setText("RTYPE", std::to_string(static_cast<int>(3 / ((float)c / CLOCKS_PER_SEC))), 150, color);
-			color.r = i % 255;
-			color.g = i * 2 % 255;
-			color.b = i / 2 % 255;
-			c = clock();
-		}
+		this->displaySprites();
 		gui.refresh();
 		win.refresh();
 		this->receiveData();

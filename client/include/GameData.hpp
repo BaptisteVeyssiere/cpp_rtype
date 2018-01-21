@@ -11,6 +11,7 @@ private:
 	std::vector<ClientEntity> entities;
 	std::vector<ClientEnemy> enemies;
 	std::vector<ClientPlayer> players;
+
 public:
 	void getInfosFromServer(std::vector<char> buff);
 	std::vector<char> getVector();

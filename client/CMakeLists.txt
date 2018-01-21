@@ -14,7 +14,7 @@ set(SOURCES
 "src/Textures.cpp"
 "src/Gui.cpp"
 "src/GameData.cpp"
-"src/Test.cpp")
+"src/Sprite.cpp")
 
 set(HEADERS
 "include/GameData.hpp"
@@ -25,7 +25,8 @@ set(HEADERS
 "include/Gui.hpp"
 "include/ClientEnemy.hpp"
 "include/ClientEntity.hpp"
-"include/ClientPlayer.hpp")
+"include/ClientPlayer.hpp"
+"include/Sprite.hpp")
 
 if (UNIX)
 endif(UNIX)

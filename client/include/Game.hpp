@@ -5,6 +5,7 @@
 #include "Textures.hpp"
 #include "Gui.hpp"
 #include "Layer.hpp"
+#include "Sprite.hpp"
 #include <SFML/Audio.hpp>
 #include "AsioSocket.hpp"
 #include "GameData.hpp"
@@ -19,6 +20,7 @@ namespace RType
 		TekEngine::Gui		gui;
 		TekEngine::Layer	menu;
 		TekEngine::Layer	subMenu;
+		TekEngine::Sprite	sprite;
 		sf::Music			music;
 		GameData			data;
 		Inputs				in;
@@ -32,6 +34,7 @@ namespace RType
 		Game	operator=(Game &other);
 
 	private:
+		void	displaySprites();
 		void	handleEvents();
 
 	public:
