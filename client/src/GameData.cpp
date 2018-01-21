@@ -47,25 +47,32 @@ void	GameData::getInfosFromServer(std::vector<char> buff)
 	buff.erase(buff.begin(), buff.begin() + sizeof(Header));
 	for (int i = 0; i < infos.entityCount; i++)
 	{
-		Entity entityTmp;
+		ClientEntity entityTmp;
 		memcpy(&entityTmp, buff.data(), sizeof(Entity));
 		buff.erase(buff.begin(), buff.begin() + sizeof(Entity));
 		entities.push_back(entityTmp);
 	}
 	for (int i = 0; i < infos.enemyCount; i++)
 	{
-		Enemy enemyTmp;
+		ClientEnemy enemyTmp;
 		memcpy(&enemyTmp, buff.data(), sizeof(Enemy));
 		buff.erase(buff.begin(), buff.begin() + sizeof(Enemy));
 		enemies.push_back(enemyTmp);
 	}
 	for (int i = 0; i < infos.playersCount; i++)
 	{
-		Player playerTmp;
+		ClientPlayer playerTmp;
 		memcpy(&playerTmp, buff.data(), sizeof(Player));
 		buff.erase(buff.begin(), buff.begin() + sizeof(Player));
 		players.push_back(playerTmp);
 	}
+}
+
+void	GameData::emptyLists()
+{
+	entities.empty();
+	enemies.empty();
+	players.empty();
 }
 
 void GameData::display()
@@ -108,15 +115,15 @@ Header& GameData::getInfos()
 {
 	return (this->infos);
 }
-std::vector<Entity>& GameData::getEntities()
+std::vector<ClientEntity>& GameData::getEntities()
 {
 	return (this->entities);
 }
-std::vector<Enemy>& GameData::getEnemies()
+std::vector<ClientEnemy>& GameData::getEnemies()
 {
 	return (this->enemies);
 }
-std::vector<Player>& GameData::getPlayers()
+std::vector<ClientPlayer>& GameData::getPlayers()
 {
 	return (this->players);
 }

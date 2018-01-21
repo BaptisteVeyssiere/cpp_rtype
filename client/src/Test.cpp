@@ -6,10 +6,10 @@ void test()
 {
 	GameData infos;
 
-	Entity *entity = new Entity();
-	Entity entity2;
-	Enemy *enemy = new Enemy();
-	Player *player = new Player();
+	ClientEntity *entity = new ClientEntity();
+	ClientEntity entity2;
+	ClientEnemy *enemy = new ClientEnemy();
+	ClientPlayer *player = new ClientPlayer();
 	//initialisation entity
 	entity->ID = 10;
 	entity->pos.x = 2;

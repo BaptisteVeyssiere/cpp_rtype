@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include <SFML/Audio.hpp>
 #include "Layer.hpp"
+#include <vector>
 #include <time.h>
 
 RType::Game::Game() {
@@ -71,6 +72,27 @@ void RType::Game::startGameLoop() {
 		gui.refresh();
 		win.refresh();
 	}
+}
+
+void RType::Game::socketInitialise(std::string ip, int port)
+{
+	socket.registerAddress(ip);
+	socket.registerPort(port);
+	socket.prepareToConnect();
+}
+
+void RType::Game::sendData()
+{
+	socket.sendRequest(data.getVector());
+}
+
+void RType::Game::receiveData()
+{
+	unsigned int size;
+	std::vector<char> buffer;
+	socket.receiveRequest(buffer, size);
+	data.emptyLists();
+	data.getInfosFromServer(buffer);
 }
 
 void RType::Game::terminate() {
