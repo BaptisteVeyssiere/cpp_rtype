@@ -86,28 +86,15 @@ void	RType::Game::displaySprites() {
 		win.getWindow()->draw(sprite->getSprite());
 		delete sprite;
 	}
+}
+
 void RType::Game::startGameLoop() {
-	std::clock_t	c = clock();
-	Connect			co;
-	sf::Color		color;
-	int				i = 0;
+	Connect	co;
 
 	strcpy(co.name, "Player");
 	co.room = 1;
 	this->socketInitialise("127.0.0.1", 57342);
 	this->socket.sendRequest(co.getVector());
-	for (auto object : entities) {
-		sprite = new TekEngine::Sprite;
-		sprite->setSprite(object.sprite, 2, 81, 16);
-		sprite->setScale(static_cast<float>(object.scale) / 100.0);
-		sprite->setPosition(std::pair<int, int>(static_cast<float>(object.pos.y) / 10000.0 * 900.0, static_cast<float>(object.pos.x) / 10000.0 * 1600.0));
-		win.getWindow()->draw(sprite->getSprite());
-		delete sprite;
-	}
-}
-
-void RType::Game::startGameLoop() {
-	this->socketInitialise("127.0.0.1", 57342);
 
 	while (win.isOpen()) {
 		this->sendData();
