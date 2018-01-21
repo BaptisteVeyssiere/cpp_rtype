@@ -1,0 +1,384 @@
+Network Working Group                                       B. Veyssiere
+Request for Comments: 7495                                     G. Vigner
+Category: Experimental                                       I. Semmaoui
+                                                              N. Scutari
+                                                                 EPITECH
+                                                            January 2018
+
+
+			  R-Type Network Protocol
+
+Status of the Memo
+
+   This memo defines an Experimental Protocol for the Internet
+   community. This memo does not specify an Internet standard of any
+   kind. Discussion and suggestions for improvement are requested.
+   Distribution of this memo is unlimited.
+
+Copyright Notice
+
+   Copyright (C) The Internet Society (2018).  All Rights Reserved.
+
+Table of Contents
+
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . . 2
+   2.  Server to Client Header  . . . . . . . . . . . . . . . . . . . 2
+   2a. Format . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+   2b. Fields . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+   3.  Server to Client Data  . . . . . . . . . . . . . . . . . . . . 3
+   3a. Player . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+   A.  Format . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+   B.  Fields . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+   3b. Enemy  . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+   A.  Format . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+   B.  Fields . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+   3c. Projectile . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+   A.  Format . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+   B.  Fields . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+   4.  Server to Client Data  . . . . . . . . . . . . . . . . . . . . 5
+   5. Security Considerations . . . . . . . . . . . . . . . . . . . . 5
+   6. References  . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+   7. Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . 5
+   8. Full Copyright Statement  . . . . . . . . . . . . . . . . . . . 5
+
+
+
+
+
+
+
+
+
+
+Veyssiere, et. al.              Experimental                    [Page 1]
+
+RFC 7495                R-Type Network Protocol             January 2018
+
+
+1. Introduction
+
+   The objective of the R-Type Network Protocol (RTNP) is to transfer
+   game data between the clients and the server of the R-Type game.
+   RTNP is an independant protocol whose main purpose was to establish
+   rules between the client/server communication. This protocol assumes
+   that the User Datagram protocol (UDP) [2] is used as the unserlying
+   protocol. Thanks to this, the RTNP can assure a quick communication
+   between the server that handles the game and multiple clients.
+
+   All the structures described in this document are in byte code : this
+   means that the datas must be converted to their original form to be
+   used in some code.
+
+2. Server to Client Header
+
+   The header is the first part of a packet sent with the RTNP. It
+   contains essential informations to correctly read the data section
+   of the packet. The header must follow the format defined in the
+   format section. If not, problems may occur, like bytes shift while
+   reading the data section.
+
+   2a. Format
+
+                         0               7
+                        +-----------------+
+                        |     Player      |
+                        |      Count      |
+                        +-----------------+
+                        |      Enemy      |
+                        |      Count      |
+                        +-----------------+
+                        |   Projectile    |
+                        |      Count      |
+                        +-----------------+
+                        |
+                        | data octets ...
+                        +------- ...
+
+               R-Type Network Protocol Header Format
+
+   2b. Fields
+
+      Player Count is the number of player structures that were sent in
+      the data section. This number must be positive or equal to 0.
+
+      Enemy Count is the number of enemy structures that were sent in
+      the data section. This number must be positive or equal to 0.
+
+      Projectile Count is the number of projectile structures that were
+      sent in the data section. This number must be positive or equal to
+      0.
+
+
+
+
+
+Veyssiere, et. al.		Experimental			[Page 2]
+
+RFC 7495		R-Type Network Protocol		    January 2018
+
+
+3. Server to Client Data
+
+   As shown in the header section, there is 3 different types of data
+   structures. This section will describe each one of them and define
+   them. Also, there is a certain order to follow in the data
+   structures. This order is the same as in the header : first, the
+   player structures, then the enemies structures and finally the
+   projectile structures. This order must be followed, or the data will
+   certainly be wrong.
+
+   3a. Player
+
+      This data structure is used to define the informations needed by
+      the R-Type client to display a player.
+
+      A. Format
+
+                  0              15 16             31
+                 +-----------------+-----------------+
+                 |     Position    |     Position    |
+                 |        X        |         Y       |
+                 +-----------------+-----------------+
+                 |                 |                 |
+                 |      Scale      |      State      |
+                 +-----------------+-----------------+
+                 |               Sprite              |
+                 |                Name               |
+                 +-----------------+-----------------+
+                 |                 |
+                 |      Score      |
+                 +-----------------+
+
+      B. Fields
+
+         Position X is the abscissa where the sprite of the player must
+         start to be displayed. It must be positive or equal to 0.
+
+         Position Y is the ordinate where the sprite of the player must
+         start to be displayed. It must be positive or equal to 0.
+
+         Scale is a percentage that can be used to modify the size of a
+         sprite. The standard value for this field is 100, which
+         represents the normal size of a sprite. It must be strictly
+         positive and should not exceed 1000.
+
+         State is a value that represents the actual state of the
+         player. The standard value is 0, which represents a neutral
+         state. If the player is taking damages, then the value should
+         be 1. If the player is exploding, then finally the value passed 
+         should be 2.
+
+         Sprite Name is a 32 bytes code that represents the name of the
+         sprite that should be displayed. All of the characters must be
+         in the ASCII tables. If the name length is less than 32, then
+         the last bytes must be filled with zeros.
+
+
+Veyssiere, et. al.		Experimental			[Page 3]
+
+RFC 7495		R-Type Network Protocol		    January 2018
+
+
+         Score represents the score of the player defined by this data
+         structure. At the beginning of the game, it equals 0 and will
+         grew up during the game. It must not be negative.
+
+   3b. Entity
+
+      This data structure is used to define the informations needed by
+      the R-Type client to display an entity, like an enemy or a
+      destructible wall.
+
+      A. Format
+
+                  0              15 16             31
+                 +-----------------+-----------------+
+                 |     Position    |     Position    |
+                 |        X        |         Y       |
+                 +-----------------+-----------------+
+                 |                 |                 |
+                 |      Scale      |      State      |
+                 +-----------------+-----------------+
+                 |               Sprite              |
+                 |                Name               |
+                 +-----------------+-----------------+
+
+      B. Fields
+
+         Position X is the abscissa where the sprite of the entity must
+         start to be displayed. It must be positive or equal to 0.
+
+         Position Y is the ordinate where the sprite of the entity must
+         start to be displayed. It must be positive or equal to 0.
+
+         Scale is a percentage that can be used to modify the size of a
+         sprite. The standard value for this field is 100, which
+         represents the normal size of a sprite. It must be strictly
+         positive and should not exceed 1000.
+
+         State is a value that represents the actual state of the
+         entity. The standard value is 0, which represents a neutral
+         state. If the enemy is taking damages, then the value should be
+         1. If the enemy is exploding, then finally the value passed
+         should be 2.
+
+         Sprite Name is a 32 bytes code that represents the name of the
+         sprite that should be displayed. All of the characters must be
+         in the ASCII tables. If the name length is less than 32, then
+         the last bytes must be filled with zeros.
+
+   3c. Projectile
+
+      This data structure is used to define the informations needed by
+      the R-Type client to display a projectile.
+
+
+
+
+
+Veyssiere, et. al.		Experimental			[Page 4]
+
+RFC 7495		R-Type Network Protocol		    January 2018
+
+
+      A. Format
+
+                  0              15 16             31
+                 +-----------------+-----------------+
+                 |     Position    |     Position    |
+                 |        X        |         Y       |
+                 +-----------------+-----------------+
+                 |               Sprite              |
+                 |                Name               |
+                 +-----------------+-----------------+
+
+      B. Fields
+
+         Position X is the abscissa where the sprite of the projectile
+         must start to be displayed. It must be positive or equal to 0.
+
+         Position Y is the ordinate where the sprite of the projectile
+         must start to be displayed. It must be positive or equal to 0.
+
+         Sprite Name is a 32 bytes code that represents the name of the
+         sprite that should be displayed. All of the characters must be
+         in the ASCII tables. If the name length is less than 32, then
+         the last bytes must be filled with zeros.
+
+4. Client to Server Data
+
+   4a. Format
+
+                         0               7
+                        +-----------------+
+                        |     Position    |
+                        |         X       |
+                        +-----------------+
+                        |     Position    |
+                        |         Y       |
+                        +-----------------+
+                        |                 |
+                        |      Firing     |
+                        +-----------------+
+                        |                 |
+                        |     Charging    |
+                        +-----------------+
+
+         R-Type Network Protocol Client to Server Data Format
+
+   2b. Fields
+
+      Position X indicate if the player push the right or left
+      direction button. The value must be -1, 0 or 1 starting
+      the left to the right.
+
+      Position Y indicate if the player push the down or up direction
+      button. The value must be -1, 0 or 1 starting the left to the
+      right.
+
+      Firing is a value equals to 0 or 1 to indicate if the player has
+      pushed the fire button.
+
+      Charging is a value equals to 0 or 1 to indicate if the player is
+      pushing the firing button to make a charged shot.
+
+4. Security Considerations
+
+   This RFC raises no security issues.
+
+5. References
+
+   [1]  Postel, J., Editor, "Internet Official Protocol Standards", STD
+        1, RFC 2200, June 1997.
+
+   [2]  Postel, J., "User Datagram Protocol", RFC 768, 28 August 1980.
+
+6. Authors' Addresses
+
+   Baptiste Veyssiere
+   EPITECH
+   47 Avenue Jean Cordier
+   Pessac, 33600
+
+   Phone: 06-06-48-61-31
+   EMail: baptiste.veyssiere@epitech.eu
+
+7. Full Copyright Statement
+
+   Copyright (C) The Internet Society (date).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it 
+
+
+
+
+
+Veyssiere, et. al.		Experimental			[Page 5]
+
+RFC 7495		R-Type Network Protocol		    January 2018
+
+
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are 
+   included on all such copies and derivative works. However, this       
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of 
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be 
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+      
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Veyssiere, et. al.		Experimental			[Page 6]
+
+RFC 7495		R-Type Network Protocol		    January 2018
