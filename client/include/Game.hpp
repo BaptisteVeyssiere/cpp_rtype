@@ -21,6 +21,7 @@ namespace RType
 		TekEngine::Layer	subMenu;
 		sf::Music			music;
 		GameData			data;
+		Inputs				in;
 
 	public:
 		Game();

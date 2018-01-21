@@ -55,10 +55,14 @@ void	RType::Game::handleEvents() {
 
 void RType::Game::startGameLoop() {
 	std::clock_t	c = clock();
+	Connect			co;
 	sf::Color		color;
 	int				i = 0;
 
+	strcpy(co.name, "Player");
+	co.room = 1;
 	this->socketInitialise("127.0.0.1", 57342);
+	this->socket.sendRequest(co.getVector());
 	while (win.isOpen()) {
 		this->sendData();
 		data.display();
@@ -87,7 +91,7 @@ void RType::Game::socketInitialise(std::string ip, int port)
 
 void RType::Game::sendData()
 {
-	socket.sendRequest(data.getVector());
+	socket.sendRequest(in.getVector());
 }
 
 void RType::Game::receiveData()
