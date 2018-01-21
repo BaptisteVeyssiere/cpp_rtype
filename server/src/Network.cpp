@@ -91,7 +91,8 @@ void	Network::getRequests(std::vector<ClientRequest> &requests, NetClient &clien
 
 void	Network::getLastRequests(std::vector<ClientRequest> &requests)
 {
-	try {
+	try
+	{
 		receiveRequest();
 		for (NetClient client : clientList)
 		{
@@ -104,7 +105,7 @@ void	Network::getLastRequests(std::vector<ClientRequest> &requests)
 	}
 	catch (std::exception &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << e.what() << "GetLastRequest" << std::endl;
 	}
 }
 
@@ -157,7 +158,7 @@ void	Network::sendRequestsTo(std::vector<ServerRequest> const &requests)
 	}
 	catch (std::exception &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << e.what() << "SendRequest" << std::endl;
 	}
 
 }
