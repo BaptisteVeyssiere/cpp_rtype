@@ -23,6 +23,10 @@ set(HEADERS
 "include/Layer.hpp"
 "include/Textures.hpp"
 "include/Gui.hpp"
+"include/ClientEnemy.hpp"
+"include/ClientEntity.hpp"
+"include/ClientPlayer.hpp")
+"include/Gui.hpp"
 "include/Sprite.hpp")
 
 if (UNIX)
@@ -34,4 +38,4 @@ if (WIN32)
 endif(WIN32)
 
 add_executable(r-type ${SOURCES} ${HEADERS})
-target_link_libraries(r-type sfml-graphics-d sfml-audio-d sfml-window-d sfml-system-d libprotocol)
+target_link_libraries(r-type sfml-graphics-d sfml-audio-d sfml-window-d sfml-system-d libprotocol libnet)

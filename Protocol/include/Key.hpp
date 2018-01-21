@@ -1,13 +1,8 @@
 #pragma once
 
-enum  Key
+enum class Key
 {
 	NONE = 0,
-	A = 1,
-	B ,
-	C ,
-	D ,
-	E ,
-	F ,
-	G
+	FIRE = 1,
+	CHARGING = 2
 };

@@ -9,8 +9,11 @@
 int main(int argc, char **argv)
 {
 	try {
-		AsioSocket server("", 4567);
-		AsioSocket client(std::string("127.0.0.1"), 4567);
+		AsioSocket server;
+		server.registerPort(4567);
+		AsioSocket client;
+		client.registerAddress(std::string("127.0.0.1"));
+		client.registerPort(4567);
 		server.startReceivingConnections();
 		client.prepareToConnect();
 		std::vector<char>	client_data;

@@ -5,7 +5,7 @@ Inputs::Inputs()
 	structureHeader = 1;
 	x = y = 0;
 	for (int i = 7; i >= 0; --i)
-		this->inputs[i] = NONE;
+		this->inputs[i] = Key::NONE;
 }
 
 std::vector<char> Inputs::getVector()

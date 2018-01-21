@@ -2,6 +2,8 @@
 #include <vector>
 #include "Game.hpp"
 
+void test();
+
 int main(int argc, char **argv)
 {
 	RType::Game	game;

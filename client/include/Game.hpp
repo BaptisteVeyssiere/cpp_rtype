@@ -7,17 +7,21 @@
 #include "Layer.hpp"
 #include "Sprite.hpp"
 #include <SFML/Audio.hpp>
+#include "AsioSocket.hpp"
+#include "GameData.hpp"
+#include <string>
 
 namespace RType
 {
 	class Game {
 	private:
+		AsioSocket			socket;
 		TekEngine::Window	win;
 		TekEngine::Gui		gui;
 		TekEngine::Layer	menu;
 		TekEngine::Layer	subMenu;
 		sf::Music			music;
-		TekEngine::Sprite	sprite;
+		GameData			data;
 
 	public:
 		Game();
@@ -34,6 +38,13 @@ namespace RType
 		void	init();
 		void	startGameLoop();
 		void	terminate();
+
+	public:
+		void	socketInitialise(std::string ip = "127.0.0.1", int port = 4242);
+
+	public:
+		void	sendData();
+		void	receiveData();
 	};
 }
 
