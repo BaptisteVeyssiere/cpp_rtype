@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Player.hpp"
-#include "Header.hpp"
+#include "Protocol.hpp"
 
 class Game {
 private:
@@ -14,11 +13,13 @@ public:
 	std::vector<char> getVector();
 	Game();
 	~Game();
-	Header getInfos();
-	std::vector<Entity> getEntities();
-	std::vector<Enemy> getEnemies();
-	std::vector<Player> getPlayers();
+	Header& getInfos();
+	std::vector<Entity>& getEntities();
+	std::vector<Enemy>& getEnemies();
+	std::vector<Player>& getPlayers();
+	void display();
 private:
 	std::vector<char> addVector(std::vector<char> a,
 		std::vector<char> b);
+	void setHeader();
 };
