@@ -13,7 +13,8 @@ set(SOURCES
 "src/Layer.cpp"
 "src/Textures.cpp"
 "src/Gui.cpp"
-"src/GameData.cpp")
+"src/GameData.cpp"
+"src/Sprite.cpp")
 
 set(HEADERS
 "include/GameData.hpp"
@@ -21,7 +22,8 @@ set(HEADERS
 "include/Game.hpp"
 "include/Layer.hpp"
 "include/Textures.hpp"
-"include/Gui.hpp")
+"include/Gui.hpp"
+"include/Sprite.hpp")
 
 if (UNIX)
 endif(UNIX)

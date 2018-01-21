@@ -28,6 +28,10 @@ void RType::Game::init() {
 	subMenu.addButton("superbouton.png", std::pair<int, int>(700, 700), std::pair<int, int>(200, 60), "subtest");
 	subMenu.addButton("superbouton.png", std::pair<int, int>(700, 600), std::pair<int, int>(200, 60), "subtest2");
 	subMenu.setButtonText("subtest", "Retour", 35);
+	sprite.setSprite("bullet.png", 2, 81, 16);
+	sprite.setScale(10);
+	sprite.setAnimSpeed(0.05);
+	sprite.setPosition(std::pair<int, int>(200, 200));
 	gui.addLayer(&menu);
 	gui.setDisplay(true);
 }
@@ -53,6 +57,7 @@ void	RType::Game::handleEvents() {
 
 void RType::Game::startGameLoop() {
 	std::clock_t	c = clock();
+	std::srand(std::time(nullptr));
 	sf::Color		color;
 	int				i = 0;
 
@@ -62,13 +67,15 @@ void RType::Game::startGameLoop() {
 		this->handleEvents();
 		if (++i % 3 == 0) {
 			c = clock() - c;
-			menu.setText("RTYPE", std::to_string(static_cast<int>(3 / ((float)c / CLOCKS_PER_SEC))), 150, color);
-			color.r = i % 255;
-			color.g = i * 2 % 255;
-			color.b = i / 2 % 255;
+			menu.setText("RTYPE", std::to_string(static_cast<int>(3 / ((float)c / CLOCKS_PER_SEC))), (50 + i / 5 % 250), color);
+			color.r = std::rand() % 255;
+			color.g = std::rand() % 255;
+			color.b = std::rand() % 255;
 			c = clock();
 		}
+		sprite.refresh();
 		gui.refresh();
+		win.getWindow()->draw(this->sprite.getSprite());
 		win.refresh();
 	}
 }
