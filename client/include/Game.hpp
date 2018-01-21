@@ -23,6 +23,7 @@ namespace RType
 		TekEngine::Sprite	sprite;
 		sf::Music			music;
 		GameData			data;
+		Inputs				in;
 
 	public:
 		Game();
