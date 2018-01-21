@@ -45,3 +45,10 @@ void	IEntity::setPos(const int x, const int y) noexcept
 	this->hitbox.x = x;
 	this->hitbox.y = y;
 }
+
+bool	IEntity::isDead() const noexcept
+{
+	if (this->hp < 1 && this->dying_time < 1)
+		return (true);
+	return (false);
+}

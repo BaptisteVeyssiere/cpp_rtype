@@ -3,7 +3,7 @@
 Player::Player(const int playerId, const std::string &playerName)
 {
 	this->type = Type::PLAYER;
-	this->speed = 2;
+	this->speed = 10;
 	this->id = playerId;
 	this->dying_time = -1;
 	this->name = playerName;
@@ -44,9 +44,9 @@ void	Player::move(const std::list<std::unique_ptr<IEntity>> &entityList) noexcep
 	int	y = this->hitbox.y + this->direction.y * this->speed;
 
 	if (x >= 0 && x < 10000)
-		this->hitbox.x += (this->direction.x * this->speed);
-	if (y >= 20 && y < 10000)
-		this->hitbox.y += (this->direction.y * this->speed);
+		this->hitbox.x = x;
+	if (y >= 20 && y < 9980)
+		this->hitbox.y = y;
 }
 
 std::unique_ptr<IEntity>	Player::attack() noexcept
@@ -54,7 +54,7 @@ std::unique_ptr<IEntity>	Player::attack() noexcept
 	if (this->cooldown == 0)
 	{
 		this->cooldown = 20;
-		return (std::make_unique<PlayerMissile>(this->hitbox.x, this->hitbox.y, this->direction));
+		return (std::make_unique<PlayerMissile>(this->hitbox.x, this->hitbox.y, this->direction, this->id));
 	}
 	--(this->cooldown);
 	return (nullptr);
@@ -73,8 +73,12 @@ std::unique_ptr<IEntity>	Player::play(const std::list<std::unique_ptr<IEntity>> 
 	else
 	{
 		this->move(entityList);
-		//if (this->input[FIRE] == true)
-		//	return (this->attack());
+		/*
+		if (this->input[FIRE] == true)
+			return (this->attack());
+		if (this->input[CHARGING] == true)
+			return (this->attack());
+			*/
 	}
 	return (nullptr);
 }

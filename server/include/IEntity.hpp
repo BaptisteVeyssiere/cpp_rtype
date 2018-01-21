@@ -37,6 +37,7 @@ public:
 	std::string							getSprite() const noexcept;
 	Hitbox								getHitbox() const noexcept;
 	void								setPos(const int x, const int y) noexcept;
+	bool								isDead() const noexcept;
 
 protected:
 	virtual std::unique_ptr<IEntity>	attack() noexcept = 0;

@@ -7,7 +7,7 @@ WinLibLoader::WinLibLoader()
 
 WinLibLoader::~WinLibLoader()
 {
-	for (std::unordered_map<std::string, HMODULE>::iterator it = this->handlers.begin(); it != this->handlers.end(); ++it)
+	for (auto it = this->handlers.begin(); it != this->handlers.end(); ++it)
 		FreeLibrary(it->second);
 }
 

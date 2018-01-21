@@ -1,9 +1,9 @@
 #include "PlayerMissile.hpp"
 
-PlayerMissile::PlayerMissile(const int x, const int y, const Pos &direction)
+PlayerMissile::PlayerMissile(const int x, const int y, const Pos &direction, const int ownerID)
 {
 	this->type = Type::PROJECTILE;
-	this->speed = 3;
+	this->speed = 15;
 	this->dying_time = -1;
 	this->name = "playerMissile";
 	this->hp = 1;
@@ -14,6 +14,8 @@ PlayerMissile::PlayerMissile(const int x, const int y, const Pos &direction)
 	this->hitbox.height = 10;
 	this->direction.x = direction.x == 0 ? 1 : direction.x;
 	this->direction.y = 0;
+	this->damage = 1;
+	this->owner = ownerID;
 }
 
 PlayerMissile::~PlayerMissile()
@@ -23,7 +25,10 @@ PlayerMissile::~PlayerMissile()
 
 std::unique_ptr<IEntity>	PlayerMissile::play(const std::list<std::unique_ptr<IEntity>> &entityList) noexcept
 {
-	this->move(entityList);
+	if (this->getHP() <= 0)
+		this->die();
+	else
+		this->move(entityList);
 	return (nullptr);
 }
 
@@ -52,7 +57,7 @@ void						PlayerMissile::move(const std::list<std::unique_ptr<IEntity>> &entityL
 	int	y = this->hitbox.y + this->direction.y * this->speed;
 
 	if (x >= 0 && x < 10000)
-		this->hitbox.x += (this->direction.x * this->speed);
-	if (y >= 20 && y < 10000)
-		this->hitbox.y += (this->direction.y * this->speed);
+		this->hitbox.x = x;
+	if (y >= 20 && y < 9980)
+		this->hitbox.y = y;
 }

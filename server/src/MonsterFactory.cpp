@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <iostream>
 #include "MonsterFactory.hpp"
 #ifdef _WIN32
 	#include "WinLibLoader.hpp"
@@ -63,5 +64,15 @@ int		MonsterFactory::getPatternNbr() const noexcept
 
 void	MonsterFactory::updateLibraries() noexcept
 {
-	this->libLoader->getNewHandlers(this->factory);
+	try {
+		this->libLoader->getNewHandlers(this->factory);
+	}
+	catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+	}
+}
+
+int		MonsterFactory::pickID() noexcept
+{
+	return (this->currentLastID++);
 }

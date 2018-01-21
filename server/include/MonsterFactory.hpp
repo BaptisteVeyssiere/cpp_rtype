@@ -24,6 +24,7 @@ public:
 	void									addPattern(const std::vector<std::pair<Pos, std::string>> &pattern);
 	std::vector<std::unique_ptr<IEntity>>	pickPattern(const int index);
 	int										getPatternNbr() const noexcept;
+	int										pickID() noexcept;
 };
 
 #endif // !MONSTERFACTORY_HPP_

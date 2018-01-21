@@ -6,7 +6,7 @@
 class PlayerMissile : public IProjectile
 {
 public:
-	PlayerMissile(const int x, const int y, const Pos &direction);
+	PlayerMissile(const int x, const int y, const Pos &direction, const int ownerID);
 	~PlayerMissile();
 
 public:
