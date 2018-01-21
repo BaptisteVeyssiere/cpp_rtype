@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Network.hpp"
 
-Network::Network()
+Network::Network() : started(false)
 {
 }
 
@@ -16,9 +16,15 @@ Network	&Network::getInstance()
 	return (instance);
 }
 
+bool	Network::isStarted() const
+{
+	return (started);
+}
+
 void	Network::startReceivingConnections(int const &port)
 {
 	server.startReceivingConnections();
+	started = true;
 }
 
 void	Network::receiveRequest()
