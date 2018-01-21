@@ -7,6 +7,7 @@ AsioSocket::AsioSocket() : io_context(), socket(io_context), endpoint(), nextId(
 	_id = 0;
 	_address = "";
 	_port = 0;
+	socket.non_blocking(true);
 }
 
 AsioSocket::AsioSocket(std::string const &addr, int const &port) : io_context(), socket(io_context), endpoint(), nextId(0)
@@ -14,11 +15,13 @@ AsioSocket::AsioSocket(std::string const &addr, int const &port) : io_context(),
 	_id = 0;
 	_address = addr;
 	_port = port;
+	socket.non_blocking(true);
 }
 
 AsioSocket::~AsioSocket()
 {
-
+	if (socket.is_open())
+		socket.close();
 }
 
 void	AsioSocket::prepareToConnect()
@@ -44,11 +47,12 @@ void	AsioSocket::startReceivingConnections()
 	socket.bind(boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), _port));
 }
 
-void	AsioSocket::sendRequest(std::vector<char> const &data, unsigned int const &id)
+void	AsioSocket::sendRequest(std::vector<char> &data, unsigned int const &id)
 {
+	std::size_t rsize = 0;
 	if (id == 0)
 	{
-		socket.send_to(boost::asio::buffer(data), endpoint);
+		rsize = socket.send_to(boost::asio::buffer(data), endpoint);
 	}
 	else
 	{
@@ -58,13 +62,17 @@ void	AsioSocket::sendRequest(std::vector<char> const &data, unsigned int const &
 			if (client._id == id)
 				endp = client._endpoint;
 		}
-		socket.send_to(boost::asio::buffer(data), endp);
+		rsize = socket.send_to(boost::asio::buffer(data), endp);
 	}
+	if (rsize > 0)
+		data.erase(data.begin(), data.begin() + rsize);
 }
 
-void	AsioSocket::sendRequest(std::vector<char> const &data)
+void	AsioSocket::sendRequest(std::vector<char> &data)
 {
-	socket.send_to(boost::asio::buffer(data), endpoint);
+	std::size_t rsize = socket.send_to(boost::asio::buffer(data), endpoint);
+	if (rsize > 0)
+		data.erase(data.begin(), data.begin() + rsize);
 }
 
 void	AsioSocket::receiveRequest(std::vector<char> &data, unsigned int &size, unsigned int &id)

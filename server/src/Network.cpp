@@ -102,7 +102,7 @@ void	Network::getLastRequests(std::vector<ClientRequest> &requests)
 	}
 }
 
-void	Network::sendRequestsTo(std::vector<ServerRequest> const &requests)
+void	Network::prepareClientsRequests(std::vector<ServerRequest> const &requests)
 {
 	for (int i = 0; i < requests.size(); ++i)
 	{
@@ -110,11 +110,48 @@ void	Network::sendRequestsTo(std::vector<ServerRequest> const &requests)
 		{
 			if (requests[i].id == client._id)
 			{
-
-				//while ()
-				//client._to_send.insert(client._to_send)
+				if (requests[i].head != nullptr)
+				{
+					std::vector<char>	header = requests[i].head->getVector();
+					client._to_send.insert(client._to_send.end(), header.begin(), header.end());
+					for (int x = 0; x < requests[i].head->playersCount; ++x)
+					{
+						std::vector<char>	tmp = requests[i].players[x]->getVector();
+						client._to_send.insert(client._to_send.end(), tmp.begin(), tmp.end());
+					}
+					for (int x = 0; x < requests[i].head->enemyCount; ++x)
+					{
+						std::vector<char>	tmp = requests[i].enemies[x]->getVector();
+						client._to_send.insert(client._to_send.end(), tmp.begin(), tmp.end());
+					}
+					for (int x = 0; x < requests[i].head->entityCount; ++x)
+					{
+						std::vector<char>	tmp = requests[i].entities[x]->getVector();
+						client._to_send.insert(client._to_send.end(), tmp.begin(), tmp.end());
+					}
+				}
 				break;
 			}
 		}
 	}
+}
+
+void	Network::sendRequestsTo(std::vector<ServerRequest> const &requests)
+{
+	try
+	{
+		prepareClientsRequests(requests);
+		for (NetClient client : clientList)
+		{
+			if (client._to_send.size() > 0)
+			{
+				server.sendRequest(client._to_send, client._id);
+			}
+		}
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
 }
