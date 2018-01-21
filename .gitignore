@@ -5,3 +5,10 @@
 /.vs
 /tests/Network/net_test1.ilk
 /tests/Network/net_test1.pdb
+/client/r-type.exe
+/client/r-type.ilk
+/client/r-type.pdb
+/server/r-type_server.exe
+/server/r-type_server.ilk
+/server/r-type_server.pdb
+/tests/Network/net_test1.exe

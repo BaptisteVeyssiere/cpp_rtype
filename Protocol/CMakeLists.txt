@@ -12,7 +12,8 @@ set(SOURCES
 "include/Header.hpp"
 "include/Key.hpp"
 "include/Pos.hpp"
-"include/Inputs.hpp")
+"include/Inputs.hpp"
+"include/Protocol.hpp")
 
 set(HEADERS
 "src/Connect.cpp"
