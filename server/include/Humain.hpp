@@ -1,13 +1,13 @@
-#ifndef PLAYER_HPP_
-# define PLAYER_HPP_
+#ifndef HUMAIN_HPP_
+# define HUMAIN_HPP_
 
 # include "PlayerMissile.hpp"
 
-class Player : public IEntity
+class Humain : public IEntity
 {
 public:
-	Player(const int playerId, const std::string &playerName);
-	~Player();
+	Humain(const int playerId, const std::string &playerName);
+	~Humain();
 
 private:
 	int	cooldown;
@@ -24,4 +24,4 @@ private:
 	void						move(const std::list<std::unique_ptr<IEntity>> &entityList) noexcept;
 };
 
-#endif // !PLAYER_HPP_
+#endif // !HUMAIN_HPP_

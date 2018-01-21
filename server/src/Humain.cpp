@@ -1,6 +1,6 @@
-#include "Player.hpp"
+#include "Humain.hpp"
 
-Player::Player(const int playerId, const std::string &playerName)
+Humain::Humain(const int playerId, const std::string &playerName)
 {
 	this->type = Type::PLAYER;
 	this->speed = 10;
@@ -14,17 +14,17 @@ Player::Player(const int playerId, const std::string &playerName)
 	this->direction.y = 0;
 	this->sprite = "player" + playerId;
 	this->hitbox.x = 0;
-	this->hitbox.y = 20 + playerId * 400;
-	this->hitbox.width = 100;
-	this->hitbox.height = 50;
+	this->hitbox.y = 1000 + playerId * 2000;
+	this->hitbox.width = 775;
+	this->hitbox.height = 1000;
 }
 
-Player::~Player()
+Humain::~Humain()
 {
 
 }
 
-bool	Player::die() noexcept
+bool	Humain::die() noexcept
 {
 	if (this->dying_time < 0)
 	{
@@ -38,7 +38,7 @@ bool	Player::die() noexcept
 	return (false);
 }
 
-void	Player::move(const std::list<std::unique_ptr<IEntity>> &entityList) noexcept
+void	Humain::move(const std::list<std::unique_ptr<IEntity>> &entityList) noexcept
 {
 	int	x = this->hitbox.x + this->direction.x * this->speed;
 	int	y = this->hitbox.y + this->direction.y * this->speed;
@@ -49,7 +49,7 @@ void	Player::move(const std::list<std::unique_ptr<IEntity>> &entityList) noexcep
 		this->hitbox.y = y;
 }
 
-std::unique_ptr<IEntity>	Player::attack() noexcept
+std::unique_ptr<IEntity>	Humain::attack() noexcept
 {
 	if (this->cooldown == 0)
 	{
@@ -60,13 +60,13 @@ std::unique_ptr<IEntity>	Player::attack() noexcept
 	return (nullptr);
 }
 
-void		Player::changeDirection(const int x, const int y) noexcept
+void		Humain::changeDirection(const int x, const int y) noexcept
 {
 	this->direction.x = x;
 	this->direction.y = y;
 }
 
-std::unique_ptr<IEntity>	Player::play(const std::list<std::unique_ptr<IEntity>> &entityList) noexcept
+std::unique_ptr<IEntity>	Humain::play(const std::list<std::unique_ptr<IEntity>> &entityList) noexcept
 {
 	if (this->getHP() <= 0)
 		this->die();
@@ -83,7 +83,7 @@ std::unique_ptr<IEntity>	Player::play(const std::list<std::unique_ptr<IEntity>> 
 	return (nullptr);
 }
 
-void	Player::inputHandler() noexcept
+void	Humain::inputHandler() noexcept
 {
 
 }
