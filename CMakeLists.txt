@@ -9,7 +9,7 @@ if (UNIX)
 
 	set(BOOST_DIR ${PROJECT_SOURCE_DIR}/deps/boost)
 
-	include_directories("deps/boost" "Network/include")
+	include_directories("deps/boost" "Network/include" "Protocol/include")
 	link_directories("deps/boost/stage/lib" "Network")
 
 	if (EXISTS "${BOOST_DIR}/b2")
@@ -36,7 +36,7 @@ if (WIN32)
 
 	set(BOOST_DIR ${PROJECT_SOURCE_DIR}\\deps\\boost)
 
-	include_directories("deps\\boost" "Network\\include")
+	include_directories("deps\\boost" "Network\\include" "Protocol\\include")
 	link_directories("deps\\boost\\stage\\lib" "Network")
 
 	if (EXISTS "${BOOST_DIR}\\b2.exe")
