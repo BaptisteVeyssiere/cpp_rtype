@@ -14,12 +14,12 @@ namespace RType
 {
 	class Game {
 	private:
+		AsioSocket			socket;
 		TekEngine::Window	win;
 		TekEngine::Gui		gui;
 		TekEngine::Layer	menu;
 		TekEngine::Layer	subMenu;
 		sf::Music			music;
-		AsioSocket			socket;
 		GameData			data;
 
 	public:

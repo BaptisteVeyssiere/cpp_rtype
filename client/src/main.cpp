@@ -11,7 +11,5 @@ int main(int argc, char **argv)
 	game.init();
 	game.startGameLoop();
 	game.terminate();
-	test();
-	while(1);
 	return (0);
 }
