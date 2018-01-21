@@ -16,11 +16,20 @@ namespace TekEngine
 			std::pair<int, int>	pos;
 			std::pair<int, int>	size;
 			std::string			id;
+			sf::Text			text;
+		};
+
+		struct Text
+		{
+			sf::Text		text;
+			std::string		id;
 		};
 
 		bool									back = false;
 		std::list<TekEngine::Layer::Button*>	buttons;
+		std::list<TekEngine::Layer::Text*>		texts;
 		sf::Sprite								background;
+		sf::Font								font;
 
 	public:
 		Layer();
@@ -32,6 +41,7 @@ namespace TekEngine
 
 	private:
 		bool	findButtonId(std::string id);
+		bool	findTextId(std::string id);
 
 	public:
 		void		DrawLayer(sf::RenderWindow &win);
@@ -39,6 +49,9 @@ namespace TekEngine
 		void		resetMask();
 		void		addButton(std::string textureName, std::pair<int, int> pos, std::pair<int, int> size, std::string id);
 		void		addBackground(std::string textureName);
+		void		setButtonText(std::string id, std::string text, int size, sf::Color col = sf::Color::White);
+		void		addText(std::string id, std::string text, std::pair<int, int> pos, int size);
+		void		setText(std::string id, std::string str, int size, sf::Color col = sf::Color::White);
 	};
 }
 
