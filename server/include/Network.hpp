@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "AsioSocket.hpp"
-#include "Protocol.hpp"
+#include "Request.hpp"
 
 struct NetClient
 {
@@ -15,26 +15,11 @@ struct NetClient
 	}
 };
 
-struct ClientRequest
-{
-	unsigned int					id;
-	std::unique_ptr<Inputs>			input;
-	std::unique_ptr<Connect>		connect;
-};
-
-struct ServerRequest
-{
-	unsigned int							id;
-	std::unique_ptr<Header>					head;
-	std::vector<std::unique_ptr<Entity>>	entities;
-	std::vector<std::unique_ptr<Enemy>>		enemies;
-	std::vector<std::unique_ptr<Player>>	players;
-};
-
 class Network {
 
 private:
 
+	bool		started;
 	AsioSocket	server;
 	std::vector<NetClient>	clientList;
 
@@ -50,6 +35,8 @@ private:
 public:
 
 	static Network &getInstance();
+
+	bool	isStarted() const;
 
 	void	startReceivingConnections(int const &port);
 	
